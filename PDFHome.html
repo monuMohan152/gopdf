@@ -1,489 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZCSPHY4ZEB"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-ZCSPHY4ZEB');
-        </script>      
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>PDF Tool Operations</title>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.15.0/dist/pdf-lib.js"></script> 
+    </script>    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate PDF Toolkit - Manage and Optimize Your PDF Files</title>
+    <meta name="description" content="Ultimate PDF Toolkit offers a comprehensive suite of tools to manage, optimize, and convert your PDF files with ease. Merge, split, compress, and secure your PDFs effortlessly.">
+    <meta name="keywords" content="PDF tools, merge PDF, split PDF, compress PDF, PDF security, convert to PDF, convert from PDF, add watermark, add page numbers">
+    <meta name="author" content="Your Name">
+    <link rel="canonical" href="https://editpdf.xyz/ultimate-pdf-toolkit">
+    <meta property="og:title" content="Ultimate PDF Toolkit - Manage and Optimize Your PDF Files">
+    <meta property="og:description" content="Ultimate PDF Toolkit offers a comprehensive suite of tools to manage, optimize, and convert your PDF files with ease. Merge, split, compress, and secure your PDFs effortlessly.">
+    <meta property="og:url" content="https://editpdf.xyz/ultimate-pdf-toolkit">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://editpdf.xyz/images/og-image.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Ultimate PDF Toolkit - Manage and Optimize Your PDF Files">
+    <meta property="twitter:description" content="Ultimate PDF Toolkit offers a comprehensive suite of tools to manage, optimize, and convert your PDF files with ease. Merge, split, compress, and secure your PDFs effortlessly.">
+    <meta property="twitter:image" content="https://editpdf.xyz/images/twitter-image.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .filter-container select {
+            padding: 12px;
+            font-size: 18px;
+            border: 2px solid #007BFF;
+            border-radius: 8px;
+            background-color: #f7f7f7;
+            color: #007BFF;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .filter-container select:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+        .filter-container select:focus {
+            outline: none;
+            border-color: #0056b3;
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
+        }
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .tool {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .tool:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .tool h2 {
+            color: #007BFF;
+        }
+        .new-tool {
+            background: #e0f7fa;
+        }
+        .new-tool h2 {
+            color: #007BFF;
+        }
+        .get-started {
+            text-align: center;
+            margin: 20px;
+        }
+        .get-started a {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+        .get-started a:hover {
+            background-color: #0056b3;
+        }
+        @media (hover: none) {
+            .tool:hover {
+                transform: none;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Ultimate PDF Toolkit</h1>
+        <p>Effortlessly manage all your PDF needs with our comprehensive suite of tools.</p>
+    </div>
+    <div class="filter-container">
+        <select id="category-filter" onchange="filterTools()">
+            <option value="all">All Tools</option>
+            <option value="organize">Organize PDF</option>
+            <option value="optimize">Optimize PDF</option>
+            <option value="convert-to">Convert to PDF</option>
+            <option value="convert-from">Convert from PDF</option>
+            <option value="edit">Edit PDF</option>
+            <option value="security">PDF Security</option>
+        </select>
+    </div>
+    <div class="container tool-grid" id="tool-grid">
+        <!-- Organize PDF -->
+        <div class="tool" data-category="organize" onclick="goToTool('merge')">
+            <h2>Merge PDF</h2>
+            <p>Combine PDFs in the order you want with the easiest PDF merger available. Effortlessly merge multiple PDF files into a single document.</p>
+        </div>
+        <div class="tool" data-category="organize" onclick="goToTool('split')">
+            <h2>Split PDF</h2>
+            <p>Separate one page or a whole set for easy conversion into independent PDF files. Customize your splits for precision and convenience.</p>
+        </div>
+        <div class="tool" data-category="organize" onclick="goToTool('remove')">
+            <h2>Remove pages</h2>
+            <p>Remove specific pages from your PDF document quickly and easily.</p>
+        </div>
+        <div class="tool" data-category="organize" onclick="goToTool('extract')">
+            <h2>Extract pages</h2>
+            <p>Extract pages from your PDF to create new PDF documents.</p>
+        </div>
+        <!-- Commented out unsupported tools -->
+        <!--
+        <div class="tool" data-category="organize" onclick="goToTool('organize')">
+            <h2>Organize PDF</h2>
+            <p>Sort pages of your PDF file however you like. Delete PDF pages or add PDF pages to your document at your convenience.</p>
+        </div>
+        <div class="tool" data-category="organize" onclick="goToTool('scan')">
+            <h2>Scan to PDF</h2>
+            <p>Capture document scans from your mobile device and send them instantly to your browser. Quick and convenient digitization.</p>
+        </div>
+        -->
+        <!-- Optimize PDF -->
+        <div class="tool" data-category="optimize" onclick="goToTool('compress')">
+            <h2>Compress PDF</h2>
+            <p>Reduce file size while optimizing for maximal PDF quality. Keep your files manageable without compromising on quality.</p>
+        </div>
+        <!-- Commented out unsupported tools -->
+        <!--
+        <div class="tool" data-category="optimize" onclick="goToTool('repair')">
+            <h2>Repair PDF</h2>
+            <p>Repair a damaged PDF and recover data from corrupt PDF files. Fix PDF issues with our Repair tool.</p>
+        </div>
+        <div class="tool" data-category="optimize" onclick="goToTool('ocr')">
+            <h2>OCR PDF</h2>
+            <p>Easily convert scanned PDFs into searchable and selectable documents. Enhance accessibility and searchability.</p>
+        </div>
+        -->
+        <!-- Convert to PDF -->
+        <div class="tool" data-category="convert-to" onclick="goToTool('jpg-to-pdf')">
+            <h2>JPG to PDF</h2>
+            <p>Convert JPG images to PDF in seconds. Easily adjust orientation and margins to suit your needs.</p>
+        </div>
+     <!--    <div class="tool" data-category="convert-to" onclick="goToTool('word-to-pdf')">
+            <h2>Word to PDF</h2>
+            <p>Make DOC and DOCX files easy to read by converting them to PDF. Maintain formatting and accessibility.</p>
+        </div>
+        <div class="tool" data-category="convert-to" onclick="goToTool('ppt-to-pdf')">
+            <h2>PowerPoint to PDF</h2>
+            <p>Make PPT and PPTX slideshows easy to view by converting them to PDF. Ensure compatibility and ease of sharing.</p>
+        </div>
+        <div class="tool" data-category="convert-to" onclick="goToTool('excel-to-pdf')">
+            <h2>Excel to PDF</h2>
+            <p>Make Excel spreadsheets easy to read by converting them to PDF. Preserve layouts and data integrity.</p>
+        </div> -->
+        <div class="tool" data-category="convert-to" onclick="goToTool('html-to-pdf')">
+            <h2>HTML to PDF</h2>
+            <p>Convert webpages in HTML to PDF. Copy and paste the URL of the page you want and convert it to PDF with a click.</p>
+        </div>
+        <!-- Convert from PDF -->
+        <!-- Commented out unsupported tools -->
+        <!--
+        <div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-jpg')">
+            <h2>PDF to JPG</h2>
+            <p>Convert each PDF page into a JPG or extract all images contained in a PDF. Perfect for image processing and sharing.</p>
+        </div>
+        <div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-word')">
+            <h2>PDF to Word</h2>
+            <p>Easily convert your PDF files into easy-to-edit DOC and DOCX documents. The converted Word document is almost 100% accurate.</p>
+        </div>
+        <div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-ppt')">
+            <h2>PDF to PowerPoint</h2>
+            <p>Turn your PDF files into easy-to-edit PPT and PPTX slideshows. Perfect for presentations and slideshows.</p>
+        </div>
+        <div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-excel')">
+            <h2>PDF to Excel</h2>
+            <p>Pull data straight from PDFs into Excel spreadsheets in a few short seconds. Streamline your data analysis.</p>
+        </div>
+        <div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-pdfa')">
+            <h2>PDF to PDF/A</h2>
+            <p>Transform your PDF to PDF/A, the ISO-standardized version of PDF for long-term archiving. Preserve formatting for future access.</p>
+        </div>
+        -->
+        <!-- Edit PDF -->
+        <div class="tool" data-category="edit" onclick="goToTool('rotate')">
+            <h2>Rotate PDF</h2>
+            <p>Rotate your PDFs the way you need them. You can even rotate multiple PDFs at once for bulk operations.</p>
+        </div>
+        <div class="tool" data-category="edit" onclick="goToTool('add-page-numbers')">
+            <h2>Add page numbers</h2>
+            <p>Add page numbers into PDFs with ease. Choose your positions, dimensions, and typography for a polished look.</p>
+        </div>
+        <div class="tool" data-category="edit" onclick="goToTool('add-watermark')">
+            <h2>Add watermark</h2>
+            <p>Stamp an image or text over your PDF in seconds. Choose the typography, transparency, and position for perfect customization.</p>
+        </div>
+        <!--
+        <div class="tool" data-category="edit" onclick="goToTool('edit')">
+            <h2>Edit PDF</h2>
+            <p>Add text, images, shapes, or freehand annotations to a PDF document. Edit the size, font, and color of the added content with ease.</p>
+        </div>
+        -->
+        <!-- PDF Security -->
+        <div class="tool" data-category="security" onclick="goToTool('unlock')">
+            <h2>Unlock PDF</h2>
+            <p>Remove PDF password security, giving you the freedom to use your PDFs as you want. Access your content without restrictions.</p>
+        </div>
+        <!-- Commented out unsupported tools -->
+        <!--
+        <div class="tool" data-category="security" onclick="goToTool('protect')">
+            <h2>Protect PDF</h2>
+            <p>Protect PDF files with a password. Encrypt PDF documents to prevent unauthorized access and ensure privacy.</p>
+        </div>
+        <div class="tool" data-category="security" onclick="goToTool('sign')">
+            <h2>Sign PDF</h2>
+            <p>Sign yourself or request electronic signatures from others. Secure and authenticate your documents.</p>
+        </div>
+        <div class="tool" data-category="security" onclick="goToTool('redact')">
+            <h2>Redact PDF</h2>
+            <p>Redact text and graphics to permanently remove sensitive information from a PDF. Ensure privacy and confidentiality.</p>
+        </div>
+        <div class="tool" data-category="security" onclick="goToTool('compare')">
+            <h2>Compare PDF</h2>
+            <p>Show a side-by-side document comparison and easily spot changes between different file versions. Ideal for revision tracking.</p>
+        </div>
+        -->
+    </div>
+    <script>
+        function filterTools() {
+            const filter = document.getElementById('category-filter').value;
+            const tools = document.querySelectorAll('.tool');
 
-      <style>
-         body {
-         font-family: Arial, sans-serif;
-         background-color: #f4f4f4;
-         margin: 0;
-         padding: 0;
-         }
-         .header {
-         background-color: #007BFF;
-         color: white;
-         padding: 20px;
-         text-align: center;
-         }
-         .container {
-         max-width: 800px;
-         margin: 20px auto;
-         background: #fff;
-         padding: 20px;
-         border-radius: 8px;
-         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-         transition: box-shadow 0.3s ease, transform 0.3s ease;
-         }
-         .container:hover {
-         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-         transform: translateY(-5px);
-         }
-         .section {
-         margin-bottom: 20px;
-         }
-         .section h2 {
-         margin-bottom: 10px;
-         color: #007BFF;
-         border-bottom: 2px solid #007BFF;
-         padding-bottom: 5px;
-         }
-         input[type="file"], input[type="number"], input[type="text"], button {
-         display: block;
-         width: 100%;
-         padding: 10px;
-         margin-bottom: 10px;
-         box-sizing: border-box;
-         font-size: 16px;
-         border-radius: 4px;
-         cursor: pointer;
-         transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-         }
-         input[type="file"] {
-         border: 2px solid #007BFF;
-         background: white;
-         color: #007BFF;
-         }
-         input[type="file"]::file-selector-button {
-         border: none;
-         border-radius: 4px;
-         background: #007BFF;
-         color: white;
-         padding: 10px;
-         cursor: pointer;
-         transition: background 0.3s ease, color 0.3s ease;
-         }
-         input[type="file"]::file-selector-button:hover {
-         background: #0056b3;
-         }
-         input[type="file"]:focus {
-         outline: none;
-         }
-         button {
-         border: 2px solid #007BFF;
-         background: white;
-         color: #007BFF;
-         }
-         button:hover {
-         background: #007BFF;
-         color: white;
-         transform: translateY(-2px);
-         }
-         button:active {
-         transform: translateY(1px);
-         }
-         .note {
-         color: #666;
-         font-size: 12px;
-         }
-      </style>
-   </head>
-   <body>
-      <div class="header">
-         <h1>PDF Tool Operations</h1>
-         <p>Perform operations on your PDF files using the selected tool.</p>
-      </div>
-      <div class="container">
-         <!-- Dynamic tool content will be inserted here -->
-      </div>
-      <script>
-         function getToolName() {
-             const urlParams = new URLSearchParams(window.location.search);
-             return urlParams.get('tool');
-         }
-         
-         function renderToolOperations(toolName) {
-             const container = document.querySelector('.container');
-             const toolOperations = {
-                 'merge': `
-                     <div class="section">
-                         <h2>Merge PDF</h2>
-                         <input type="file" id="mergeInput1" accept="application/pdf">
-                         <input type="file" id="mergeInput2" accept="application/pdf">
-                         <button onclick="mergePDF()">Merge PDF</button>
-                     </div>
-                 `,
-                 'split': `
-                     <div class="section">
-                         <h2>Split PDF</h2>
-                         <input type="file" id="splitInput" accept="application/pdf">
-                         <input type="number" id="splitPage" placeholder="Page number">
-                         <button onclick="splitPDF()">Split PDF</button>
-                     </div>
-                 `,
-                 'remove': `
-                     <div class="section">
-                         <h2>Remove Pages</h2>
-                         <input type="file" id="removeInput" accept="application/pdf">
-                         <input type="number" id="removePage" placeholder="Page number">
-                         <button onclick="removePageFromPDF()">Remove Page</button>
-                     </div>
-                 `,
-                 'extract': `
-                     <div class="section">
-                         <h2>Extract Pages</h2>
-                         <input type="file" id="extractInput" accept="application/pdf">
-                         <input type="number" id="extractStart" placeholder="Start page">
-                         <input type="number" id="extractEnd" placeholder="End page">
-                         <button onclick="extractPagesFromPDF()">Extract Pages</button>
-                     </div>
-                 `,
-                 'jpg-to-pdf': `
-                     <div class="section">
-                         <h2>JPG to PDF</h2>
-                         <input type="file" id="jpgInput" accept="image/jpeg">
-                         <button onclick="convertJPGToPDF()">Convert JPG to PDF</button>
-                     </div>
-                 `,
-                 'html-to-pdf': `
-                     <div class="section">
-                         <h2>HTML to PDF</h2>
-                         <input type="file" id="htmlInput" accept="text/html">
-                         <button onclick="convertHTMLToPDF()">Convert HTML to PDF</button>
-                     </div>
-                 `,
-                 'rotate': `
-                     <div class="section">
-                         <h2>Rotate PDF</h2>
-                         <input type="file" id="rotateInput" accept="application/pdf">
-                         <input type="number" id="rotateAngle" placeholder="Rotation angle (degrees)">
-                         <button onclick="rotatePDF()">Rotate PDF</button>
-                     </div>
-                 `,
-                 'add-page-numbers': `
-                     <div class="section">
-                         <h2>Add Page Numbers</h2>
-                         <input type="file" id="pageNumberInput" accept="application/pdf">
-                         <button onclick="addPageNumbers()">Add Page Numbers</button>
-                     </div>
-                 `,
-                 'add-watermark': `
-                     <div class="section">
-                         <h2>Add Watermark</h2>
-                         <input type="file" id="watermarkInput" accept="application/pdf">
-                         <input type="text" id="watermarkText" placeholder="Watermark text">
-                         <button onclick="addWatermark()">Add Watermark</button>
-                     </div>
-                 `,
-                 'unlock': `
-                     <div class="section">
-                         <h2>Unlock PDF</h2>
-                         <input type="file" id="unlockInput" accept="application/pdf">
-                         <button onclick="unlockPDF()">Unlock PDF</button>
-                         <p class="note">Note: This may not work with all types of encryption.</p>
-                     </div>
-                 `,
-                 'compress': `
-                 <div class="section">
-                     <h2>Compress PDF</h2>
-                     <input type="file" id="compressInput" accept="application/pdf">
-                     <button onclick="compressPDF()">Compress PDF</button>
-                 </div>
-                `
-                 
-             };
-         
-             container.innerHTML = toolOperations[toolName] || '<p>Feature coming soon. Stay tuned!</p>';
-         }
-         
-         document.addEventListener('DOMContentLoaded', () => {
-             const toolName = getToolName();
-             renderToolOperations(toolName);
-         });
-         
-         function downloadPDF(pdfBytes, filename) {
-             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-             const url = URL.createObjectURL(blob);
-             const a = document.createElement('a');
-             a.href = url;
-             a.download = filename;
-             document.body.appendChild(a);
-             a.click();
-             setTimeout(() => {
-                 document.body.removeChild(a);
-                 URL.revokeObjectURL(url);
-             }, 0);
-         }
-         
-         async function mergePDF() {
-             const file1 = document.getElementById('mergeInput1').files[0];
-             const file2 = document.getElementById('mergeInput2').files[0];
-             if (file1 && file2) {
-                 const pdfDoc1 = await PDFLib.PDFDocument.load(await file1.arrayBuffer());
-                 const pdfDoc2 = await PDFLib.PDFDocument.load(await file2.arrayBuffer());
-                 const mergedPdf = await PDFLib.PDFDocument.create();
-                 const copiedPages1 = await mergedPdf.copyPages(pdfDoc1, pdfDoc1.getPageIndices());
-                 const copiedPages2 = await mergedPdf.copyPages(pdfDoc2, pdfDoc2.getPageIndices());
-                 copiedPages1.forEach((page) => mergedPdf.addPage(page));
-                 copiedPages2.forEach((page) => mergedPdf.addPage(page));
-                 const pdfBytes = await mergedPdf.save();
-                 downloadPDF(pdfBytes, 'merged.pdf');
-             } else {
-                 alert('Please select two PDF files.');
-             }
-         }
-         
-         async function splitPDF() {
-             const file = document.getElementById('splitInput').files[0];
-             const pageNum = parseInt(document.getElementById('splitPage').value);
-             if (file && !isNaN(pageNum)) {
-                 const pdfDoc = await PDFLib.PDFDocument.load(await file.arrayBuffer());
-                 const splitDoc = await PDFLib.PDFDocument.create();
-                 const pages = await splitDoc.copyPages(pdfDoc, [pageNum - 1]);
-                 splitDoc.addPage(pages[0]);
-                 const pdfBytes = await splitDoc.save();
-                 downloadPDF(pdfBytes, `split_page_${pageNum}.pdf`);
-             } else {
-                 alert('Please select a PDF file and specify the page number.');
-             }
-         }
-         
-         async function removePageFromPDF() {
-             const file = document.getElementById('removeInput').files[0];
-             const pageNum = parseInt(document.getElementById('removePage').value);
-             if (file && !isNaN(pageNum)) {
-                 const pdfDoc = await PDFLib.PDFDocument.load(await file.arrayBuffer());
-                 pdfDoc.removePage(pageNum - 1);
-                 const pdfBytes = await pdfDoc.save();
-                 downloadPDF(pdfBytes, `removed_page_${pageNum}.pdf`);
-             } else {
-                 alert('Please select a PDF file and specify the page number.');
-             }
-         }
-         
-         async function extractPagesFromPDF() {
-             const file = document.getElementById('extractInput').files[0];
-             const startPage = parseInt(document.getElementById('extractStart').value);
-             const endPage = parseInt(document.getElementById('extractEnd').value);
-             if (file && !isNaN(startPage) && !isNaN(endPage)) {
-                 const pdfDoc = await PDFLib.PDFDocument.load(await file.arrayBuffer());
-                 const extractDoc = await PDFLib.PDFDocument.create();
-                 const pages = await extractDoc.copyPages(pdfDoc, Array.from({ length: endPage - startPage + 1 }, (_, i) => i + startPage - 1));
-                 pages.forEach(page => extractDoc.addPage(page));
-                 const pdfBytes = await extractDoc.save();
-                 downloadPDF(pdfBytes, `extracted_pages_${startPage}_to_${endPage}.pdf`);
-             } else {
-                 alert('Please select a PDF file and specify the page range.');
-             }
-         }
-         
-         async function convertJPGToPDF() {
-             const file = document.getElementById('jpgInput').files[0];
-             if (file) {
-                 const reader = new FileReader();
-                 reader.onload = async (e) => {
-                     const arrayBuffer = e.target.result;
-                     const uint8Array = new Uint8Array(arrayBuffer);
-                     const pdfDoc = await PDFLib.PDFDocument.create();
-                     const jpgImage = await pdfDoc.embedJpg(uint8Array);
-                     const page = pdfDoc.addPage([jpgImage.width, jpgImage.height]);
-                     page.drawImage(jpgImage, {
-                         x: 0,
-                         y: 0,
-                         width: jpgImage.width,
-                         height: jpgImage.height
-                     });
-                     const pdfBytes = await pdfDoc.save();
-                     downloadPDF(pdfBytes, 'converted.pdf');
-                 };
-                 reader.readAsArrayBuffer(file);
-             } else {
-                 alert('Please select a JPG file.');
-             }
-         }
-         
-         async function convertHTMLToPDF() {
-             const file = document.getElementById('htmlInput').files[0];
-             if (file) {
-                 const reader = new FileReader();
-                 reader.onload = async (e) => {
-                     const parser = new DOMParser();
-                     const doc = parser.parseFromString(e.target.result, 'text/html');
-                     const div = document.createElement('div');
-                     div.innerHTML = doc.body.innerHTML;
-                     document.body.appendChild(div);
-         
-                     html2canvas(div).then(async canvas => {
-                         const imgData = canvas.toDataURL('image/png');
-                         const pdfDoc = await PDFLib.PDFDocument.create();
-                         const img = await pdfDoc.embedPng(imgData);
-                         const page = pdfDoc.addPage([img.width, img.height]);
-                         page.drawImage(img, {
-                             x: 0,
-                             y: 0,
-                             width: img.width,
-                             height: img.height
-                         });
-                         const pdfBytes = await pdfDoc.save();
-                         downloadPDF(pdfBytes, 'converted.pdf');
-                         document.body.removeChild(div);
-                     });
-                 };
-                 reader.readAsText(file);
-             } else {
-                 alert('Please select an HTML file.');
-             }
-         }
-         
-         async function rotatePDF() {
-             const file = document.getElementById('rotateInput').files[0];
-             const angle = parseInt(document.getElementById('rotateAngle').value);
-             if (file && !isNaN(angle)) {
-                 const pdfDoc = await PDFLib.PDFDocument.load(await file.arrayBuffer());
-                 pdfDoc.getPages().forEach(page => page.setRotation(angle * (Math.PI / 180)));
-                 const pdfBytes = await pdfDoc.save();
-                 downloadPDF(pdfBytes, 'rotated.pdf');
-             } else {
-                 alert('Please select a PDF file and specify the rotation angle.');
-             }
-         }
-         
-         async function addPageNumbers() {
-             const file = document.getElementById('pageNumberInput').files[0];
-             if (file) {
-                 const pdfDoc = await PDFLib.PDFDocument.load(await file.arrayBuffer());
-                 const pages = pdfDoc.getPages();
-                 pages.forEach((page, index) => {
-                     const { width, height } = page.getSize();
-                     page.drawText(`${index + 1}`, {
-                         x: width - 50,
-                         y: 10,
-                         size: 12,
-                         color: PDFLib.rgb(0, 0, 0)
-                     });
-                 });
-                 const pdfBytes = await pdfDoc.save();
-                 downloadPDF(pdfBytes, 'page_numbered.pdf');
-             } else {
-                 alert('Please select a PDF file.');
-             }
-         }
-         
-         async function addWatermark() {
-             const file = document.getElementById('watermarkInput').files[0];
-             const watermarkText = document.getElementById('watermarkText').value;
-             if (file && watermarkText) {
-                 const pdfDoc = await PDFLib.PDFDocument.load(await file.arrayBuffer());
-                 const pages = pdfDoc.getPages();
-                 pages.forEach(page => {
-                     const { width, height } = page.getSize();
-                     page.drawText(watermarkText, {
-                         x: width / 2 - 50,
-                         y: height / 2,
-                         size: 48,
-                         color: PDFLib.rgb(0.75, 0.75, 0.75),
-                         rotate: PDFLib.degrees(45),
-                         opacity: 0.5
-                     });
-                 });
-                 const pdfBytes = await pdfDoc.save();
-                 downloadPDF(pdfBytes, 'watermarked.pdf');
-             } else {
-                 alert('Please select a PDF file and enter a watermark text.');
-             }
-         }
-         
-         async function unlockPDF() {
-             const file = document.getElementById('unlockInput').files[0];
-             if (file) {
-                 const pdfDoc = await PDFLib.PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: true });
-                 const pdfBytes = await pdfDoc.save();
-                 downloadPDF(pdfBytes, 'unlocked.pdf');
-             } else {
-                 alert('Please select a PDF file.');
-             }
-         }
-         
-         async function compressPDF() {
-         const file = document.getElementById('compressInput').files[0];
-         if (file) {
-             const reader = new FileReader();
-             reader.onload = async (e) => {
-                 const arrayBuffer = e.target.result;
-                 const uint8Array = new Uint8Array(arrayBuffer);
-                 const pdfDoc = await PDFLib.PDFDocument.load(uint8Array);
-         
-                 const pages = pdfDoc.getPages();
-                 for (const page of pages) {
-                     const images = page.node.Resources.XObject || {};
-                     for (const key in images) {
-                         const xObject = images[key];
-                         if (xObject instanceof PDFLib.PDFRawStream && xObject.dict.get('Subtype').name === 'Image') {
-                             const imageBytes = xObject.contents;
-                             const originalImage = new Image();
-                             const url = URL.createObjectURL(new Blob([imageBytes], { type: 'image/jpeg' }));
-         
-                             await new Promise((resolve) => {
-                                 originalImage.onload = resolve;
-                                 originalImage.src = url;
-                             });
-         
-                             // Resize and compress the image using a canvas
-                             const canvas = document.createElement('canvas');
-                             const ctx = canvas.getContext('2d');
-                             const maxWidth = 600;
-                             const scaleSize = maxWidth / originalImage.width;
-                             canvas.width = maxWidth;
-                             canvas.height = originalImage.height * scaleSize;
-                             ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
-         
-                             const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                             const resizedArrayBuffer = await fetch(resizedDataUrl).then(res => res.arrayBuffer());
-                             const resizedUint8Array = new Uint8Array(resizedArrayBuffer);
-         
-                             const compressedImage = await pdfDoc.embedJpg(resizedUint8Array);
-                             const { x, y, width, height } = xObject.dict.get('BBox');
-                             page.drawImage(compressedImage, { x, y, width, height });
-                         }
-                     }
-                 }
-         
-                 const pdfBytes = await pdfDoc.save();
-                 downloadPDF(pdfBytes, 'compressed.pdf');
-             };
-             reader.readAsArrayBuffer(file);
-         } else {
-             alert('Please select a PDF file.');
-         }
-         }
-         
-         
-         async function extractTextFromPDF(pdfData) {
-         const { data } = await Tesseract.recognize(pdfData, 'eng', { 
-         tessjs_create_pdf: '1',
-         pdf_output_format: 'pdf'
-         });
-         return data.text;
-         }
-         
-         async function createPDFWithText(text) {
-         const pdfData = new Uint8Array(text);
-         return pdfData;
-         }
-         
-         
-         
-      </script>
-   </body>
+            tools.forEach(tool => {
+                if (filter === 'all') {
+                    tool.style.display = 'block';
+                } else {
+                    tool.style.display = tool.getAttribute('data-category') === filter ? 'block' : 'none';
+                }
+            });
+        }
+        function goToTool(toolName) {
+            window.location.href = `tool.html?tool=${toolName}`;
+        }
+    </script>
+</body>
 </html>
