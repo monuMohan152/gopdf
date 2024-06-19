@@ -12,8 +12,6 @@
       <title>PDF Tool Operations</title>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.3.0/dist/tesseract.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.3.0/dist/tesseract.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.15.0/dist/pdf-lib.js"></script> 
 
       <style>
@@ -470,21 +468,6 @@
          }
          }
          
-         async function ocrPDF() {
-         const file = document.getElementById('ocrInput').files[0];
-         if (file) {
-         const reader = new FileReader();
-         reader.onload = async () => {
-            const pdfData = new Uint8Array(reader.result);
-            const pdfText = await extractTextFromPDF(pdfData);
-            const searchablePDF = await createPDFWithText(pdfText);
-            downloadPDF(searchablePDF, 'searchable_pdf.pdf');
-         };
-         reader.readAsArrayBuffer(file);
-         } else {
-         alert('Please select a PDF file.');
-         }
-         }
          
          async function extractTextFromPDF(pdfData) {
          const { data } = await Tesseract.recognize(pdfData, 'eng', { 
