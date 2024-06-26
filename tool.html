@@ -214,19 +214,33 @@
              renderToolOperations(toolName);
          });
          
+         // function downloadPDF(pdfBytes, filename) {
+         //     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+         //     const url = URL.createObjectURL(blob);
+         //     const a = document.createElement('a');
+         //     a.href = url;
+         //     a.download = filename;
+         //     document.body.appendChild(a);
+         //     a.click();
+         //     setTimeout(() => {
+         //         document.body.removeChild(a);
+         //         URL.revokeObjectURL(url);
+         //     }, 0);
+         // }
+
          function downloadPDF(pdfBytes, filename) {
-             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-             const url = URL.createObjectURL(blob);
-             const a = document.createElement('a');
-             a.href = url;
-             a.download = filename;
-             document.body.appendChild(a);
-             a.click();
-             setTimeout(() => {
-                 document.body.removeChild(a);
-                 URL.revokeObjectURL(url);
-             }, 0);
-         }
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 0);
+}
          
          async function mergePDF() {
              const file1 = document.getElementById('mergeInput1').files[0];
