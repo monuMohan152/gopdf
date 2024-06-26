@@ -241,7 +241,19 @@
         URL.revokeObjectURL(url);
     }, 0);
 }
-         
+         function downloadBlob(blobUrl) {
+    fetch(blobUrl)
+        .then(response => response.blob())
+        .then(blob => {
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                const base64data = reader.result.split(',')[1];
+                Android.onBlobDownload("downloadedFile.pdf", base64data);
+            };
+            reader.readAsDataURL(blob);
+        });
+}
+
          async function mergePDF() {
              const file1 = document.getElementById('mergeInput1').files[0];
              const file2 = document.getElementById('mergeInput2').files[0];
