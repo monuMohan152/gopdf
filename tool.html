@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-ZCSPHY4ZEB');
-        </script>      
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         gtag('config', 'G-ZCSPHY4ZEB');
+      </script>      
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>PDF Tool Operations</title>
@@ -15,6 +15,7 @@
       <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.3.0/dist/tesseract.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.3.0/dist/tesseract.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.15.0/dist/pdf-lib.js"></script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 
       <style>
          body {
@@ -99,6 +100,9 @@
          color: #666;
          font-size: 12px;
          }
+         .back-button {
+         margin-bottom: 20px;
+         }
       </style>
    </head>
    <body>
@@ -107,6 +111,7 @@
          <p>Perform operations on your PDF files using the selected tool.</p>
       </div>
       <div class="container">
+         <button class="back-button" onclick="goBack()">Back to Home</button>
          <!-- Dynamic tool content will be inserted here -->
       </div>
       <script>
@@ -188,25 +193,40 @@
                          <button onclick="addWatermark()">Add Watermark</button>
                      </div>
                  `,
-                 'unlock': `
-                     <div class="section">
-                         <h2>Unlock PDF</h2>
-                         <input type="file" id="unlockInput" accept="application/pdf">
-                         <button onclick="unlockPDF()">Unlock PDF</button>
-                         <p class="note">Note: This may not work with all types of encryption.</p>
-                     </div>
-                 `,
-                 'compress': `
-                 <div class="section">
-                     <h2>Compress PDF</h2>
-                     <input type="file" id="compressInput" accept="application/pdf">
-                     <button onclick="compressPDF()">Compress PDF</button>
-                 </div>
-                `
+          'unlock': `
+         <div class="section">
+         <h2>Unlock PDF</h2>
+         <input type="file" id="unlockInput" accept="application/pdf">
+         <button onclick="unlockPDF()">Unlock PDF</button>
+         <p class="note">Note: This may not work with all types of encryption.</p>
+         </div>
+         `,
+         'compress': `
+         <div class="section">
+         <h2>Compress PDF</h2>
+         <input type="file" id="compressInput" accept="application/pdf">
+         <button onclick="compressPDF()">Compress PDF</button>
+         </div>
+         `,
+         'pdf-to-png': `
+         <div class="section">
+         <h2>PDF to PNG</h2>
+         <input type="file" id="pdfInput" accept="application/pdf">
+         <button onclick="convertPDFToPNG()">Convert PDF to PNG</button>
+         </div>
+         `,
+         'png-to-pdf': `
+         <div class="section">
+         <h2>PNG to PDF</h2>
+         <input type="file" id="pngInput" accept="image/png">
+         <button onclick="convertPNGToPDF()">Convert PNG to PDF</button>
+         </div>
+         `
+         
                  
              };
          
-             container.innerHTML = toolOperations[toolName] || '<p>Feature coming soon. Stay tuned!</p>';
+             container.innerHTML += toolOperations[toolName] || '<p>Feature coming soon. Stay tuned!</p>';
          }
          
          document.addEventListener('DOMContentLoaded', () => {
@@ -214,46 +234,24 @@
              renderToolOperations(toolName);
          });
          
-         // function downloadPDF(pdfBytes, filename) {
-         //     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-         //     const url = URL.createObjectURL(blob);
-         //     const a = document.createElement('a');
-         //     a.href = url;
-         //     a.download = filename;
-         //     document.body.appendChild(a);
-         //     a.click();
-         //     setTimeout(() => {
-         //         document.body.removeChild(a);
-         //         URL.revokeObjectURL(url);
-         //     }, 0);
-         // }
-
+         function goBack() {
+             window.location.href = 'PDFHome.html';
+         }
+         
          function downloadPDF(pdfBytes, filename) {
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }, 0);
-}
-         function downloadBlob(blobUrl) {
-    fetch(blobUrl)
-        .then(response => response.blob())
-        .then(blob => {
-            const reader = new FileReader();
-            reader.onloadend = function() {
-                const base64data = reader.result.split(',')[1];
-                Android.onBlobDownload("downloadedFile.pdf", base64data);
-            };
-            reader.readAsDataURL(blob);
-        });
-}
-
+             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+             const url = URL.createObjectURL(blob);
+             const a = document.createElement('a');
+             a.href = url;
+             a.download = filename;
+             document.body.appendChild(a);
+             a.click();
+             setTimeout(() => {
+                 document.body.removeChild(a);
+                 URL.revokeObjectURL(url);
+             }, 0);
+         }
+         
          async function mergePDF() {
              const file1 = document.getElementById('mergeInput1').files[0];
              const file2 = document.getElementById('mergeInput2').files[0];
@@ -444,88 +442,160 @@
          }
          
          async function compressPDF() {
-         const file = document.getElementById('compressInput').files[0];
-         if (file) {
-             const reader = new FileReader();
-             reader.onload = async (e) => {
-                 const arrayBuffer = e.target.result;
-                 const uint8Array = new Uint8Array(arrayBuffer);
-                 const pdfDoc = await PDFLib.PDFDocument.load(uint8Array);
+             const file = document.getElementById('compressInput').files[0];
+             if (file) {
+                 const reader = new FileReader();
+                 reader.onload = async (e) => {
+                     const arrayBuffer = e.target.result;
+                     const uint8Array = new Uint8Array(arrayBuffer);
+                     const pdfDoc = await PDFLib.PDFDocument.load(uint8Array);
          
-                 const pages = pdfDoc.getPages();
-                 for (const page of pages) {
-                     const images = page.node.Resources.XObject || {};
-                     for (const key in images) {
-                         const xObject = images[key];
-                         if (xObject instanceof PDFLib.PDFRawStream && xObject.dict.get('Subtype').name === 'Image') {
-                             const imageBytes = xObject.contents;
-                             const originalImage = new Image();
-                             const url = URL.createObjectURL(new Blob([imageBytes], { type: 'image/jpeg' }));
+                     const pages = pdfDoc.getPages();
+                     for (const page of pages) {
+                         const images = page.node.Resources.XObject || {};
+                         for (const key in images) {
+                             const xObject = images[key];
+                             if (xObject instanceof PDFLib.PDFRawStream && xObject.dict.get('Subtype').name === 'Image') {
+                                 const imageBytes = xObject.contents;
+                                 const originalImage = new Image();
+                                 const url = URL.createObjectURL(new Blob([imageBytes], { type: 'image/jpeg' }));
          
-                             await new Promise((resolve) => {
-                                 originalImage.onload = resolve;
-                                 originalImage.src = url;
-                             });
+                                 await new Promise((resolve) => {
+                                     originalImage.onload = resolve;
+                                     originalImage.src = url;
+                                 });
          
-                             // Resize and compress the image using a canvas
-                             const canvas = document.createElement('canvas');
-                             const ctx = canvas.getContext('2d');
-                             const maxWidth = 600;
-                             const scaleSize = maxWidth / originalImage.width;
-                             canvas.width = maxWidth;
-                             canvas.height = originalImage.height * scaleSize;
-                             ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+                                 // Resize and compress the image using a canvas
+                                 const canvas = document.createElement('canvas');
+                                 const ctx = canvas.getContext('2d');
+                                 const maxWidth = 600;
+                                 const scaleSize = maxWidth / originalImage.width;
+                                 canvas.width = maxWidth;
+                                 canvas.height = originalImage.height * scaleSize;
+                                 ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
          
-                             const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                             const resizedArrayBuffer = await fetch(resizedDataUrl).then(res => res.arrayBuffer());
-                             const resizedUint8Array = new Uint8Array(resizedArrayBuffer);
+                                 const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                                 const resizedArrayBuffer = await fetch(resizedDataUrl).then(res => res.arrayBuffer());
+                                 const resizedUint8Array = new Uint8Array(resizedArrayBuffer);
          
-                             const compressedImage = await pdfDoc.embedJpg(resizedUint8Array);
-                             const { x, y, width, height } = xObject.dict.get('BBox');
-                             page.drawImage(compressedImage, { x, y, width, height });
+                                 const compressedImage = await pdfDoc.embedJpg(resizedUint8Array);
+                                 const { x, y, width, height } = xObject.dict.get('BBox');
+                                 page.drawImage(compressedImage, { x, y, width, height });
+                             }
                          }
                      }
-                 }
          
-                 const pdfBytes = await pdfDoc.save();
-                 downloadPDF(pdfBytes, 'compressed.pdf');
-             };
-             reader.readAsArrayBuffer(file);
-         } else {
-             alert('Please select a PDF file.');
-         }
+                     const pdfBytes = await pdfDoc.save();
+                     downloadPDF(pdfBytes, 'compressed.pdf');
+                 };
+                 reader.readAsArrayBuffer(file);
+             } else {
+                 alert('Please select a PDF file.');
+             }
          }
          
          async function ocrPDF() {
-         const file = document.getElementById('ocrInput').files[0];
-         if (file) {
-         const reader = new FileReader();
-         reader.onload = async () => {
-            const pdfData = new Uint8Array(reader.result);
-            const pdfText = await extractTextFromPDF(pdfData);
-            const searchablePDF = await createPDFWithText(pdfText);
-            downloadPDF(searchablePDF, 'searchable_pdf.pdf');
-         };
-         reader.readAsArrayBuffer(file);
-         } else {
-         alert('Please select a PDF file.');
-         }
+             const file = document.getElementById('ocrInput').files[0];
+             if (file) {
+                 const reader = new FileReader();
+                 reader.onload = async () => {
+                     const pdfData = new Uint8Array(reader.result);
+                     const pdfText = await extractTextFromPDF(pdfData);
+                     const searchablePDF = await createPDFWithText(pdfText);
+                     downloadPDF(searchablePDF, 'searchable_pdf.pdf');
+                 };
+                 reader.readAsArrayBuffer(file);
+             } else {
+                 alert('Please select a PDF file.');
+             }
          }
          
          async function extractTextFromPDF(pdfData) {
-         const { data } = await Tesseract.recognize(pdfData, 'eng', { 
-         tessjs_create_pdf: '1',
-         pdf_output_format: 'pdf'
-         });
-         return data.text;
+             const { data } = await Tesseract.recognize(pdfData, 'eng', { 
+                 tessjs_create_pdf: '1',
+                 pdf_output_format: 'pdf'
+             });
+             return data.text;
          }
          
          async function createPDFWithText(text) {
-         const pdfData = new Uint8Array(text);
-         return pdfData;
+             const pdfData = new Uint8Array(text);
+             return pdfData;
          }
          
+         async function convertPNGToPDF() {
+         const file = document.getElementById('pngInput').files[0];
+         if (file) {
+         const reader = new FileReader();
+         reader.onload = async (e) => {
+            const arrayBuffer = e.target.result;
+            const uint8Array = new Uint8Array(arrayBuffer);
+            const pdfDoc = await PDFLib.PDFDocument.create();
+            const pngImage = await pdfDoc.embedPng(uint8Array);
+            const page = pdfDoc.addPage([pngImage.width, pngImage.height]);
+            page.drawImage(pngImage, {
+                x: 0,
+                y: 0,
+                width: pngImage.width,
+                height: pngImage.height
+            });
+            const pdfBytes = await pdfDoc.save();
+            downloadPDF(pdfBytes, 'converted.pdf');
+         };
+         reader.readAsArrayBuffer(file);
+         } else {
+         alert('Please select a PNG file.');
+         }
+         }
          
+async function convertPDFToPNG() {
+    const file = document.getElementById('pdfInput').files[0];
+    if (file) {
+        const pdfData = new Uint8Array(await file.arrayBuffer());
+
+        // Load PDF document using PDF.js
+        const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+        const pdf = await loadingTask.promise;
+
+        const totalPages = pdf.numPages;
+
+        for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+            const page = await pdf.getPage(pageNumber);
+
+            // Render PDF page to canvas
+            const scale = 1.5; // Adjust scale as needed
+            const viewport = page.getViewport({ scale });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+            await page.render(renderContext).promise;
+
+            // Convert canvas to PNG data URL
+            const pngDataUrl = canvas.toDataURL('image/png');
+
+            // Download PNG file
+            downloadPNG(pngDataUrl, `page_${pageNumber}.png`);
+        }
+    } else {
+        alert('Please select a PDF file.');
+    }
+}
+
+function downloadPNG(dataUrl, filename) {
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
          
       </script>
    </body>
