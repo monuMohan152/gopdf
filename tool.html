@@ -12,8 +12,6 @@
       <title>PDF Tool Operations</title>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.3.0/dist/tesseract.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.3.0/dist/tesseract.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.15.0/dist/pdf-lib.js"></script> 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 
@@ -510,13 +508,7 @@
              }
          }
          
-         async function extractTextFromPDF(pdfData) {
-             const { data } = await Tesseract.recognize(pdfData, 'eng', { 
-                 tessjs_create_pdf: '1',
-                 pdf_output_format: 'pdf'
-             });
-             return data.text;
-         }
+      
          
          async function createPDFWithText(text) {
              const pdfData = new Uint8Array(text);
