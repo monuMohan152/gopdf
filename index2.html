@@ -1,1 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZCSPHY4ZEB"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-ZCSPHY4ZEB');
+    </script>    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate PDF Toolkit - Manage and Optimize Your PDF Files</title>
+    <meta name="description" content="Ultimate PDF Toolkit offers a comprehensive suite of tools to manage, optimize, and convert your PDF files with ease. Merge, split, compress, and secure your PDFs effortlessly.">
+    <meta name="keywords" content="PDF tools, merge PDF, split PDF, compress PDF, PDF security, convert to PDF, convert from PDF, add watermark, add page numbers">
+    <meta name="author" content="Your Name">
+    <link rel="canonical" href="https://pdfedit.xyz/ultimate-pdf-toolkit">
+    <meta property="og:title" content="Ultimate PDF Toolkit - Manage and Optimize Your PDF Files">
+    <meta property="og:description" content="Ultimate PDF Toolkit offers a comprehensive suite of tools to manage, optimize, and convert your PDF files with ease. Merge, split, compress, and secure your PDFs effortlessly.">
+    <meta property="og:url" content="https://pdfedit.xyz/ultimate-pdf-toolkit">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://pdfedit.xyz/images/og-image.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Ultimate PDF Toolkit - Manage and Optimize Your PDF Files">
+    <meta property="twitter:description" content="Ultimate PDF Toolkit offers a comprehensive suite of tools to manage, optimize, and convert your PDF files with ease. Merge, split, compress, and secure your PDFs effortlessly.">
+    <meta property="twitter:image" content="https://pdfedit.xyz/images/twitter-image.png">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .filter-container select {
+            padding: 12px;
+            font-size: 18px;
+            border: 2px solid #007BFF;
+            border-radius: 8px;
+            background-color: #f7f7f7;
+            color: #007BFF;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .filter-container select:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+        .filter-container select:focus {
+            outline: none;
+            border-color: #0056b3;
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
+        }
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .tool {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .tool:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .tool h2 {
+            color: #007BFF;
+        }
+        .new-tool {
+            background: #e0f7fa;
+        }
+        .new-tool h2 {
+            color: #007BFF;
+        }
+        .get-started {
+            text-align: center;
+            margin: 20px;
+        }
+        .get-started a {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+        .get-started a:hover {
+            background-color: #0056b3;
+        }
+        @media (hover: none) {
+            .tool:hover {
+                transform: none;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Ultimate PDF Toolkit</h1>
+        <p>Effortlessly manage all your PDF needs with our comprehensive suite of tools.</p>
+    </div>
+    <div class="filter-container">
+        <select id="category-filter" onchange="filterTools()">
+            <option value="all">All Tools</option>
+            <option value="organize">Organize PDF</option>
+            <option value="optimize">Optimize PDF</option>
+            <option value="convert-to">Convert to PDF</option>
+            <option value="convert-from">Convert from PDF</option>
+            <option value="edit">Edit PDF</option>
+            <option value="security">PDF Security</option>
+        </select>
+    </div>
+    <div class="container tool-grid" id="tool-grid">
+        <!-- Organize PDF -->
+        <div class="tool" data-category="organize" onclick="goToTool('merge')">
+            <h2>Merge PDF</h2>
+            <p>Combine PDFs in the order you want with the easiest PDF merger available. Effortlessly merge multiple PDF files into a single document.</p>
+        </div>
+        <div class="tool" data-category="organize" onclick="goToTool('split')">
+            <h2>Split PDF</h2>
+            <p>Separate one page or a whole set for easy conversion into independent PDF files. Customize your splits for precision and convenience.</p>
+        </div>
+        <div class="tool" data-category="organize" onclick="goToTool('remove')">
+            <h2>Remove pages</h2>
+            <p>Remove specific pages from your PDF document quickly and easily.</p>
+        </div>
+        <div class="tool" data-category="organize" onclick="goToTool('extract')">
+            <h2>Extract pages</h2>
+            <p>Extract pages from your PDF to create new PDF documents.</p>
+        </div>
+        <!-- Commented out unsupported tools -->
+        <!--
+        <div class="tool" data-category="organize" onclick="goToTool('organize')">
+            <h2>Organize PDF</h2>
+            <p>Sort pages of your PDF file however you like. Delete PDF pages or add PDF pages to your document at your convenience.</p>
+        </div>
+        <div class="tool" data-category="organize" onclick="goToTool('scan')">
+            <h2>Scan to PDF</h2>
+            <p>Capture document scans from your mobile device and send them instantly to your browser. Quick and convenient digitization.</p>
+        </div>
+        -->
+        <!-- Optimize PDF -->
+        <div class="tool" data-category="optimize" onclick="goToTool('compress')">
+            <h2>Compress PDF</h2>
+            <p>Reduce file size while optimizing for maximal PDF quality. Keep your files manageable without compromising on quality.</p>
+        </div>
+        <!-- Commented out unsupported tools -->
+        <!--
+        <div class="tool" data-category="optimize" onclick="goToTool('repair')">
+            <h2>Repair PDF</h2>
+            <p>Repair a damaged PDF and recover data from corrupt PDF files. Fix PDF issues with our Repair tool.</p>
+        </div>
+        <div class="tool" data-category="optimize" onclick="goToTool('ocr')">
+            <h2>OCR PDF</h2>
+            <p>Easily convert scanned PDFs into searchable and selectable documents. Enhance accessibility and searchability.</p>
+        </div>
+        -->
+        <!-- Convert to PDF -->
+        <div class="tool" data-category="convert-to" onclick="goToTool('jpg-to-pdf')">
+            <h2>JPG to PDF</h2>
+            <p>Convert JPG images to PDF in seconds. Easily adjust orientation and margins to suit your needs.</p>
+        </div>
+     <!--    <div class="tool" data-category="convert-to" onclick="goToTool('word-to-pdf')">
+            <h2>Word to PDF</h2>
+            <p>Make DOC and DOCX files easy to read by converting them to PDF. Maintain formatting and accessibility.</p>
+        </div>
+        <div class="tool" data-category="convert-to" onclick="goToTool('ppt-to-pdf')">
+            <h2>PowerPoint to PDF</h2>
+            <p>Make PPT and PPTX slideshows easy to view by converting them to PDF. Ensure compatibility and ease of sharing.</p>
+        </div>
+        <div class="tool" data-category="convert-to" onclick="goToTool('excel-to-pdf')">
+            <h2>Excel to PDF</h2>
+            <p>Make Excel spreadsheets easy to read by converting them to PDF. Preserve layouts and data integrity.</p>
+        </div> -->
+        <div class="tool" data-category="convert-to" onclick="goToTool('html-to-pdf')">
+            <h2>HTML to PDF</h2>
+            <p>Convert webpages in HTML to PDF. Copy and paste the URL of the page you want and convert it to PDF with a click.</p>
+        </div>
+        <!-- Convert from PDF -->
+        <!-- Commented out unsupported tools -->
+        <!--
+        <div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-jpg')">
+            <h2>PDF to JPG</h2>
+            <p>Convert each PDF page into a JPG or extract all images contained in a PDF. Perfect for image processing and sharing.</p>
+        </div>
+        <div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-word')">
+            <h2>PDF to Word</h2>
+            <p>Easily convert your PDF files into easy-to-edit DOC and DOCX documents. The converted Word document is almost 100% accurate.</p>
+        </div>
+        <div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-ppt')">
+            <h2>PDF to PowerPoint</h2>
+            <p>Turn your PDF files into easy-to-edit PPT and PPTX slideshows. Perfect for presentations and slideshows.</p>
+        </div>
+        <div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-excel')">
+            <h2>PDF to Excel</h2>
+            <p>Pull data straight from PDFs into Excel spreadsheets in a few short seconds. Streamline your data analysis.</p>
+        </div>
+        <div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-pdfa')">
+            <h2>PDF to PDF/A</h2>
+            <p>Transform your PDF to PDF/A, the ISO-standardized version of PDF for long-term archiving. Preserve formatting for future access.</p>
+        </div>
+        -->
+        <!-- Edit PDF -->
+        <div class="tool" data-category="edit" onclick="goToTool('rotate')">
+            <h2>Rotate PDF</h2>
+            <p>Rotate your PDFs the way you need them. You can even rotate multiple PDFs at once for bulk operations.</p>
+        </div>
+        <div class="tool" data-category="edit" onclick="goToTool('add-page-numbers')">
+            <h2>Add page numbers</h2>
+            <p>Add page numbers into PDFs with ease. Choose your positions, dimensions, and typography for a polished look.</p>
+        </div>
+        <div class="tool" data-category="edit" onclick="goToTool('add-watermark')">
+            <h2>Add watermark</h2>
+            <p>Stamp an image or text over your PDF in seconds. Choose the typography, transparency, and position for perfect customization.</p>
+        </div>
+        <!--
+        <div class="tool" data-category="edit" onclick="goToTool('edit')">
+            <h2>Edit PDF</h2>
+            <p>Add text, images, shapes, or freehand annotations to a PDF document. Edit the size, font, and color of the added content with ease.</p>
+        </div>
+        -->
+        <!-- PDF Security -->
+        <div class="tool" data-category="security" onclick="goToTool('unlock')">
+            <h2>Unlock PDF</h2>
+            <p>Remove PDF password security, giving you the freedom to use your PDFs as you want. Access your content without restrictions.</p>
+        </div>
+        <div class="tool" data-category="convert-to" onclick="goToTool('png-to-pdf')">
+    <h2>PNG to PDF</h2>
+    <p>Convert PNG images to PDF quickly and efficiently. Adjust orientation and margins as needed.</p>
+</div>
+<div class="tool" data-category="convert-from" onclick="goToTool('pdf-to-png')">
+    <h2>PDF to PNG</h2>
+    <p>Convert PDF pages to PNG images effortlessly. Select specific pages or convert the entire document.</p>
+</div>
+
+        <!-- Commented out unsupported tools -->
+        <!--
+        <div class="tool" data-category="security" onclick="goToTool('protect')">
+            <h2>Protect PDF</h2>
+            <p>Protect PDF files with a password. Encrypt PDF documents to prevent unauthorized access and ensure privacy.</p>
+        </div>
+        <div class="tool" data-category="security" onclick="goToTool('sign')">
+            <h2>Sign PDF</h2>
+            <p>Sign yourself or request electronic signatures from others. Secure and authenticate your documents.</p>
+        </div>
+        <div class="tool" data-category="security" onclick="goToTool('redact')">
+            <h2>Redact PDF</h2>
+            <p>Redact text and graphics to permanently remove sensitive information from a PDF. Ensure privacy and confidentiality.</p>
+        </div>
+        <div class="tool" data-category="security" onclick="goToTool('compare')">
+            <h2>Compare PDF</h2>
+            <p>Show a side-by-side document comparison and easily spot changes between different file versions. Ideal for revision tracking.</p>
+        </div>
+        -->
+    </div>
+    <script>
+        function filterTools() {
+            const filter = document.getElementById('category-filter').value;
+            const tools = document.querySelectorAll('.tool');
+
+            tools.forEach(tool => {
+                if (filter === 'all') {
+                    tool.style.display = 'block';
+                } else {
+                    tool.style.display = tool.getAttribute('data-category') === filter ? 'block' : 'none';
+                }
+            });
+        }
+        function goToTool(toolName) {
+            window.location.href = `tool.html?tool=${toolName}`;
+        }
+    </script>
+</body>
+</html>
 
