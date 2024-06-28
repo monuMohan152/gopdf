@@ -1,236 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <script>
-         window.dataLayer = window.dataLayer || [];
-         function gtag(){dataLayer.push(arguments);}
-         gtag('js', new Date());
-         gtag('config', 'G-ZCSPHY4ZEB');
-      </script>      
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>PDF Tool Operations</title>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.15.0/dist/pdf-lib.js"></script> 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Tool Operations</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.15.0/dist/pdf-lib.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 
-      <style>
-         body {
-         font-family: Arial, sans-serif;
-         background-color: #f4f4f4;
-         margin: 0;
-         padding: 0;
-         }
-         .header {
-         background-color: #007BFF;
-         color: white;
-         padding: 20px;
-         text-align: center;
-         }
-         .container {
-         max-width: 800px;
-         margin: 20px auto;
-         background: #fff;
-         padding: 20px;
-         border-radius: 8px;
-         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-         transition: box-shadow 0.3s ease, transform 0.3s ease;
-         }
-         .container:hover {
-         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-         transform: translateY(-5px);
-         }
-         .section {
-         margin-bottom: 20px;
-         }
-         .section h2 {
-         margin-bottom: 10px;
-         color: #007BFF;
-         border-bottom: 2px solid #007BFF;
-         padding-bottom: 5px;
-         }
-         input[type="file"], input[type="number"], input[type="text"], button {
-         display: block;
-         width: 100%;
-         padding: 10px;
-         margin-bottom: 10px;
-         box-sizing: border-box;
-         font-size: 16px;
-         border-radius: 4px;
-         cursor: pointer;
-         transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-         }
-         input[type="file"] {
-         border: 2px solid #007BFF;
-         background: white;
-         color: #007BFF;
-         }
-         input[type="file"]::file-selector-button {
-         border: none;
-         border-radius: 4px;
-         background: #007BFF;
-         color: white;
-         padding: 10px;
-         cursor: pointer;
-         transition: background 0.3s ease, color 0.3s ease;
-         }
-         input[type="file"]::file-selector-button:hover {
-         background: #0056b3;
-         }
-         input[type="file"]:focus {
-         outline: none;
-         }
-         button {
-         border: 2px solid #007BFF;
-         background: white;
-         color: #007BFF;
-         }
-         button:hover {
-         background: #007BFF;
-         color: white;
-         transform: translateY(-2px);
-         }
-         button:active {
-         transform: translateY(1px);
-         }
-         .note {
-         color: #666;
-         font-size: 12px;
-         }
-         .back-button {
-         margin-bottom: 20px;
-         }
-      </style>
-   </head>
-   <body>
-      <div class="header">
-         <h1>PDF Tool Operations</h1>
-         <p>Perform operations on your PDF files using the selected tool.</p>
-      </div>
-      <div class="container">
-         <button class="back-button" onclick="goBack()">Back to Home</button>
-         <!-- Dynamic tool content will be inserted here -->
-      </div>
-      <script>
-         function getToolName() {
-             const urlParams = new URLSearchParams(window.location.search);
-             return urlParams.get('tool');
-         }
-         
-         function renderToolOperations(toolName) {
-             const container = document.querySelector('.container');
-             const toolOperations = {
-                 'merge': `
-                     <div class="section">
-                         <h2>Merge PDF</h2>
-                         <input type="file" id="mergeInput1" accept="application/pdf">
-                         <input type="file" id="mergeInput2" accept="application/pdf">
-                         <button onclick="mergePDF()">Merge PDF</button>
-                     </div>
-                 `,
-                 'split': `
-                     <div class="section">
-                         <h2>Split PDF</h2>
-                         <input type="file" id="splitInput" accept="application/pdf">
-                         <input type="number" id="splitPage" placeholder="Page number">
-                         <button onclick="splitPDF()">Split PDF</button>
-                     </div>
-                 `,
-                 'remove': `
-                     <div class="section">
-                         <h2>Remove Pages</h2>
-                         <input type="file" id="removeInput" accept="application/pdf">
-                         <input type="number" id="removePage" placeholder="Page number">
-                         <button onclick="removePageFromPDF()">Remove Page</button>
-                     </div>
-                 `,
-                 'extract': `
-                     <div class="section">
-                         <h2>Extract Pages</h2>
-                         <input type="file" id="extractInput" accept="application/pdf">
-                         <input type="number" id="extractStart" placeholder="Start page">
-                         <input type="number" id="extractEnd" placeholder="End page">
-                         <button onclick="extractPagesFromPDF()">Extract Pages</button>
-                     </div>
-                 `,
-                 'jpg-to-pdf': `
-                     <div class="section">
-                         <h2>JPG to PDF</h2>
-                         <input type="file" id="jpgInput" accept="image/jpeg">
-                         <button onclick="convertJPGToPDF()">Convert JPG to PDF</button>
-                     </div>
-                 `,
-                 'html-to-pdf': `
-                     <div class="section">
-                         <h2>HTML to PDF</h2>
-                         <input type="file" id="htmlInput" accept="text/html">
-                         <button onclick="convertHTMLToPDF()">Convert HTML to PDF</button>
-                     </div>
-                 `,
-                 'rotate': `
-                     <div class="section">
-                         <h2>Rotate PDF</h2>
-                         <input type="file" id="rotateInput" accept="application/pdf">
-                         <input type="number" id="rotateAngle" placeholder="Rotation angle (degrees)">
-                         <button onclick="rotatePDF()">Rotate PDF</button>
-                     </div>
-                 `,
-                 'add-page-numbers': `
-                     <div class="section">
-                         <h2>Add Page Numbers</h2>
-                         <input type="file" id="pageNumberInput" accept="application/pdf">
-                         <button onclick="addPageNumbers()">Add Page Numbers</button>
-                     </div>
-                 `,
-                 'add-watermark': `
-                     <div class="section">
-                         <h2>Add Watermark</h2>
-                         <input type="file" id="watermarkInput" accept="application/pdf">
-                         <input type="text" id="watermarkText" placeholder="Watermark text">
-                         <button onclick="addWatermark()">Add Watermark</button>
-                     </div>
-                 `,
-          'unlock': `
-         <div class="section">
-         <h2>Unlock PDF</h2>
-         <input type="file" id="unlockInput" accept="application/pdf">
-         <button onclick="unlockPDF()">Unlock PDF</button>
-         <p class="note">Note: This may not work with all types of encryption.</p>
-         </div>
-         `,
-         'compress': `
-         <div class="section">
-         <h2>Compress PDF</h2>
-         <input type="file" id="compressInput" accept="application/pdf">
-         <button onclick="compressPDF()">Compress PDF</button>
-         </div>
-         `,
-         'pdf-to-png': `
-         <div class="section">
-         <h2>PDF to PNG</h2>
-         <input type="file" id="pdfInput" accept="application/pdf">
-         <button onclick="convertPDFToPNG()">Convert PDF to PNG</button>
-         </div>
-         `,
-         'png-to-pdf': `
-         <div class="section">
-         <h2>PNG to PDF</h2>
-         <input type="file" id="pngInput" accept="image/png">
-         <button onclick="convertPNGToPDF()">Convert PNG to PDF</button>
-         </div>
-         `
-         
-                 
-             };
-         
-             container.innerHTML += toolOperations[toolName] || '<p>Feature coming soon. Stay tuned!</p>';
-         }
-         
-         document.addEventListener('DOMContentLoaded', () => {
-             const toolName = getToolName();
-             renderToolOperations(toolName);
-         });
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .container:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            margin-bottom: 10px;
+            color: #007BFF;
+            border-bottom: 2px solid #007BFF;
+            padding-bottom: 5px;
+        }
+
+        /* Input and Button Styling */
+        input[type="file"], input[type="number"], input[type="text"], button {
+            display: block;
+            width: calc(100% - 22px); /* Adjust for padding and border */
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+            border: 2px solid #007BFF;
+            background: white;
+            color: #007BFF;
+        }
+        input[type="file"]::file-selector-button {
+            border: none;
+            border-radius: 4px;
+            background: #007BFF;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        input[type="file"]::file-selector-button:hover {
+            background: #0056b3;
+        }
+        input[type="file"]:focus {
+            outline: none;
+        }
+        button {
+            background: white;
+            color: #007BFF;
+            border: 2px solid #007BFF;
+            transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            background: #007BFF;
+            color: white;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        .note {
+            color: #666;
+            font-size: 12px;
+        }
+        .back-button {
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+            input[type="file"], input[type="number"], input[type="text"], button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>PDF Tool Operations</h1>
+        <p>Perform operations on your PDF files using the selected tool.</p>
+    </div>
+    <div class="container">
+        <button class="back-button" onclick="goBack()">Back to Home</button>
+        <!-- Dynamic tool content will be inserted here -->
+    </div>
+
+    <script>
+        function getToolName() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('tool');
+        }
+
+        function renderToolOperations(toolName) {
+            const container = document.querySelector('.container');
+            const toolOperations = {
+                'merge': `
+                    <div class="section">
+                        <h2>Merge PDF</h2>
+                        <input type="file" id="mergeInput1" accept="application/pdf">
+                        <input type="file" id="mergeInput2" accept="application/pdf">
+                        <button onclick="mergePDF()">Merge PDF</button>
+                    </div>
+                `,
+                'split': `
+                    <div class="section">
+                        <h2>Split PDF</h2>
+                        <input type="file" id="splitInput" accept="application/pdf">
+                        <input type="number" id="splitPage" placeholder="Page number">
+                        <button onclick="splitPDF()">Split PDF</button>
+                    </div>
+                `,
+                'remove': `
+                    <div class="section">
+                        <h2>Remove Pages</h2>
+                        <input type="file" id="removeInput" accept="application/pdf">
+                        <input type="number" id="removePage" placeholder="Page number">
+                        <button onclick="removePageFromPDF()">Remove Page</button>
+                    </div>
+                `,
+                'extract': `
+                    <div class="section">
+                        <h2>Extract Pages</h2>
+                        <input type="file" id="extractInput" accept="application/pdf">
+                        <input type="number" id="extractStart" placeholder="Start page">
+                        <input type="number" id="extractEnd" placeholder="End page">
+                        <button onclick="extractPagesFromPDF()">Extract Pages</button>
+                    </div>
+                `,
+                'jpg-to-pdf': `
+                    <div class="section">
+                        <h2>JPG to PDF</h2>
+                        <input type="file" id="jpgInput" accept="image/jpeg">
+                        <button onclick="convertJPGToPDF()">Convert JPG to PDF</button>
+                    </div>
+                `,
+                'html-to-pdf': `
+                    <div class="section">
+                        <h2>HTML to PDF</h2>
+                        <input type="file" id="htmlInput" accept="text/html">
+                        <button onclick="convertHTMLToPDF()">Convert HTML to PDF</button>
+                    </div>
+                `,
+                'rotate': `
+                    <div class="section">
+                        <h2>Rotate PDF</h2>
+                        <input type="file" id="rotateInput" accept="application/pdf">
+                        <input type="number" id="rotateAngle" placeholder="Rotation angle (degrees)">
+                        <button onclick="rotatePDF()">Rotate PDF</button>
+                    </div>
+                `,
+                'add-page-numbers': `
+                    <div class="section">
+                        <h2>Add Page Numbers</h2>
+                        <input type="file" id="pageNumberInput" accept="application/pdf">
+                        <button onclick="addPageNumbers()">Add Page Numbers</button>
+                    </div>
+                `,
+                'add-watermark': `
+                    <div class="section">
+                        <h2>Add Watermark</h2>
+                        <input type="file" id="watermarkInput" accept="application/pdf">
+                        <input type="text" id="watermarkText" placeholder="Watermark text">
+                        <button onclick="addWatermark()">Add Watermark</button>
+                    </div>
+                `,
+                'unlock': `
+                    <div class="section">
+                        <h2>Unlock PDF</h2>
+                        <input type="file" id="unlockInput" accept="application/pdf">
+                        <button onclick="unlockPDF()">Unlock PDF</button>
+                        <p class="note">Note: This may not work with all types of encryption.</p>
+                    </div>
+                `,
+                'compress': `
+                    <div class="section">
+                        <h2>Compress PDF</h2>
+                        <input type="file" id="compressInput" accept="application/pdf">
+                        <button onclick="compressPDF()">Compress PDF</button>
+                    </div>
+                `,
+                'pdf-to-png': `
+                    <div class="section">
+                        <h2>PDF to PNG</h2>
+                        <input type="file" id="pdfInput" accept="application/pdf">
+                        <button onclick="convertPDFToPNG()">Convert PDF to PNG</button>
+                    </div>
+                `,
+                'png-to-pdf': `
+                    <div class="section">
+                        <h2>PNG to PDF</h2>
+                        <input type="file" id="pngInput" accept="image/png">
+                        <button onclick="convertPNGToPDF()">Convert PNG to PDF</button>
+                    </div>
+                `
+            };
+
+            container.innerHTML += toolOperations[toolName] || '<p>Invalid tool selection.</p>';
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const toolName = getToolName();
+            renderToolOperations(toolName);
+        });
+
          
          function goBack() {
              window.location.href = 'index.html';
